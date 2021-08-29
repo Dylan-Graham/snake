@@ -1,0 +1,14 @@
+main {
+  display: grid;
+  grid-template-columns: repeat(8, 50px);
+}
+
+div {
+  height: 400px;
+  display: contents;
+}
+
+app-block {
+  border: 1px gray solid;
+  height: 50px;
+}

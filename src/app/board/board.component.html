@@ -1,0 +1,13 @@
+
+<button (click)="newGame()">New Game</button>
+
+<h1>Score: {{score}}</h1>
+
+<main>
+  <div *ngFor="let row of board; let i = index">
+      <app-block
+        *ngFor="let val of row"
+        [value]="val">
+      </app-block>
+  </div>
+</main>
