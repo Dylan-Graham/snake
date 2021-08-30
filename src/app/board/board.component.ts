@@ -61,16 +61,7 @@ export class BoardComponent implements OnInit {
   newGame() {
     this.gameComplete = false;
     this.score = 0;
-    this.board = [
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 4, 5, 6, 0],
-      [0, 0, 0, 0, 3, 0, 7, 0],
-      [0, 0, 0, 1, 2, 0, 8, 0],
-      [0, 0, 0, 0, 0, 0, 9, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ];
+    this.clearBoard();
     this.snakeDirection = direction.left;
 
     const snakeHead = new LinkedListItem(5, 3);
@@ -90,16 +81,10 @@ export class BoardComponent implements OnInit {
   }
 
   clearBoard() {
-    this.board = [
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ];
+    this.board = Array(16);
+    for (let i = 0; i < this.board.length; i++) {
+      this.board[i] = Array(16).fill(0);
+    }
   }
 
   makeMove() {
@@ -109,6 +94,9 @@ export class BoardComponent implements OnInit {
     switch (this.snakeDirection) {
       case direction.up:
         row--;
+        if (row === -1) {
+            row = 15;
+        }
         break;
       case direction.down:
         row++;
@@ -118,8 +106,13 @@ export class BoardComponent implements OnInit {
         break;
       case direction.left:
         col--;
+        if (col === -1) {
+            col = 15;
+        }
         break;
     }
+    row = row % 16;
+    col = col % 16;
 
     this.checkSnakeValidity(row, col);
 
@@ -151,6 +144,13 @@ export class BoardComponent implements OnInit {
   }
 
   checkSnakeValidity(row: number, col: number) {
+    if (this.board[row][col] === -1) {
+        // spawn new fruit
+
+        // increase score
+        this.score += 10;
+    }
+
     if (this.board[row][col] > 0) {
       this.gameComplete = true;
     }
